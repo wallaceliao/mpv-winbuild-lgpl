@@ -1,0 +1,124 @@
+diff --git a/packages/CMakeLists.txt b/packages/CMakeLists.txt
+index 528db95..5ac5fae 100644
+--- a/packages/CMakeLists.txt
++++ b/packages/CMakeLists.txt
+@@ -1,8 +1,6 @@
+ set_property(DIRECTORY PROPERTY EP_STEP_TARGETS download)
+ include(${PROJECT_SOURCE_DIR}/cmake/packages_check.cmake)
+ list(APPEND ep
+-    xz
+-    lzo
+     uchardet
+     zlib
+     bzip2
+@@ -26,8 +24,6 @@ list(APPEND ep
+     nvcodec-headers
+     xxhash
+     dav1d
+-    libbs2b
+-    libarchive
+     #highway
+     #libjxl
+     angle-headers
+@@ -42,12 +38,8 @@ list(APPEND ep
+     glad
+     fast_float
+     libplacebo
+-    libzvbi
+-    libaribcaption
+     ffmpeg
+     mpv
+-    mpv-release
+-    mpv-packaging
+ )
+ foreach(package IN LISTS ep)
+     if(NOT ${SINGLE_SOURCE_LOCATION} STREQUAL "")
+diff --git a/packages/ffmpeg.cmake b/packages/ffmpeg.cmake
+index d54fd1f..9ab3f7d 100644
+--- a/packages/ffmpeg.cmake
++++ b/packages/ffmpeg.cmake
+@@ -5,17 +5,15 @@ ExternalProject_Add(ffmpeg
+         fontconfig
+         harfbuzz
+         lcms2
+-        libaribcaption
+         libass
+-        libbs2b
+         libplacebo
+         libpng
+         libxml2
+         libzimg
+-        libzvbi
+         ${nvcodec_headers}
+         shaderc
+     GIT_REPOSITORY https://github.com/FFmpeg/FFmpeg.git
++    GIT_TAG @FFMPEG_TAG@
+     SOURCE_DIR ${SOURCE_LOCATION}
+     GIT_CLONE_FLAGS "--sparse --filter=tree:0"
+     GIT_CLONE_POST_COMMAND "sparse-checkout set --no-cone /* !tests/ref/fate"
+@@ -28,9 +26,10 @@ ExternalProject_Add(ffmpeg
+         --pkg-config-flags=--static
+         --enable-cross-compile
+         --enable-runtime-cpudetect
++        --disable-gpl
++        --disable-nonfree
++        --disable-version3
+         #${ffmpeg_hardcoded_tables}
+-        --enable-gpl
+-        --enable-version3
+         --disable-doc
+         --disable-ffplay
+         --disable-ffprobe
+@@ -38,9 +37,7 @@ ExternalProject_Add(ffmpeg
+         --disable-videotoolbox
+         ${ffmpeg_cuda}
+         --enable-lcms2
+-        --enable-libaribcaption
+         --enable-libass
+-        --enable-libbs2b
+         --enable-libdav1d
+         --enable-libfontconfig
+         --enable-libfreetype
+@@ -50,7 +47,6 @@ ExternalProject_Add(ffmpeg
+         --enable-libshaderc
+         --enable-libxml2
+         --enable-libzimg
+-        --enable-libzvbi
+         --enable-opengl
+         --enable-schannel
+         ${ffmpeg_lto}
+diff --git a/packages/mpv.cmake b/packages/mpv.cmake
+index c7f8671..d0649f5 100644
+--- a/packages/mpv.cmake
++++ b/packages/mpv.cmake
+@@ -4,7 +4,6 @@ ExternalProject_Add(mpv
+         ffmpeg
+         fribidi
+         lcms2
+-        libarchive
+         libass
+         libiconv
+         libjpeg
+@@ -17,7 +16,8 @@ ExternalProject_Add(mpv
+         subrandr
+         uchardet
+         vulkan
+-    GIT_REPOSITORY https://github.com/Kosm8/mpv.git
++    GIT_REPOSITORY https://github.com/mpv-player/mpv.git
++    GIT_TAG @MPV_TAG@
+     SOURCE_DIR ${SOURCE_LOCATION}
+     GIT_CLONE_FLAGS "--filter=tree:0"
+     UPDATE_COMMAND ""
+@@ -33,10 +33,11 @@ ExternalProject_Add(mpv
+         -Db_lto=true
+         ${mpv_lto_mode}
+         -Dlibmpv=true
++        -Dgpl=false
+         ${mpv_gl}
+         -Djavascript=enabled
+         -Dlcms2=enabled
+-        -Dlibarchive=enabled
++        -Dlibarchive=disabled
+         -Dlua=enabled
+         -Dpdf-build=enabled
+         -Dspirv-cross=enabled

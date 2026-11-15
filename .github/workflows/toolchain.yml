@@ -90,10 +90,14 @@ jobs:
           git config --global fetch.prune true
       - uses: actions/checkout@v6
 
+      - name: Load pins
+        shell: bash
+        run: grep -E '^[A-Z_]+=' pins.env >> "$GITHUB_ENV"
       - name: Checkout toolchain
         uses: actions/checkout@v6
         with:
           repository: Kosm8/mpv-winbuild-cmake
+          ref: ${{ env.CMAKE_SHA }}
           path: mpv-winbuild-cmake
           fetch-depth: 0
 
@@ -169,10 +173,14 @@ jobs:
           git config --global fetch.prune true
       - uses: actions/checkout@v6
 
+      - name: Load pins
+        shell: bash
+        run: grep -E '^[A-Z_]+=' pins.env >> "$GITHUB_ENV"
       - name: Checkout toolchain
         uses: actions/checkout@v6
         with:
           repository: Kosm8/mpv-winbuild-cmake
+          ref: ${{ env.CMAKE_SHA }}
           path: mpv-winbuild-cmake
           fetch-depth: 0
 
@@ -234,9 +242,7 @@ jobs:
                   ref: '${{github.ref}}',
                   workflow_id: 'mpv.yml',
                   inputs: {
-                    build_target: t,
                     compiler: "${{ inputs.compiler }}",
-                    needclean: true,
                     release: release,
                     run_name: `CI Build: ${t} toolchain cache update`
                   }
