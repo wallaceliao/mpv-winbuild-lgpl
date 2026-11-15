@@ -114,9 +114,10 @@ jobs:
         run: |
           set -euo pipefail
           b=mpv-winbuild-cmake/build$BIT
-          ffcfg=$(find "$b" -path '*ffmpeg-build/config.h' | head -1)
-          mpvcfg=$(find "$b" -path '*mpv-build/config.h' | head -1)
-          test -n "$ffcfg" && test -n "$mpvcfg"
+          ffcfg="$b/lgpl-evidence/ffmpeg-config.h"
+          mpvcfg="$b/lgpl-evidence/mpv-config.h"
+          test -s "$ffcfg"
+          test -s "$mpvcfg"
           echo "FFmpeg: $ffcfg"; grep -E 'FFMPEG_CONFIGURATION|FFMPEG_LICENSE' "$ffcfg"
           grep -qx '#define FFMPEG_LICENSE "LGPL version 2.1 or later"' "$ffcfg"
           grep -qx '#define CONFIG_GPL 0' "$ffcfg"
@@ -143,10 +144,7 @@ jobs:
           out=dist; mkdir -p "$out/config"
           b=mpv-winbuild-cmake/build$BIT
           cp "$(find mpv-winbuild-cmake/release -name 'mpv-dev-*.7z' | head -1)" "$out/"
-          cp "$(find "$b" -path '*ffmpeg-build/config.h' | head -1)"           "$out/config/ffmpeg-config.h"
-          cp "$(find "$b" -path '*ffmpeg-build/ffbuild/config.mak' | head -1)" "$out/config/ffmpeg-config.mak"
-          cp "$(find "$b" -path '*mpv-build/config.h' | head -1)"              "$out/config/mpv-config.h"
-          cp "$(find "$b" -path '*mpv-build/meson-info/intro-buildoptions.json' | head -1)" "$out/config/mpv-buildoptions.json"
+          cp "$b"/lgpl-evidence/* "$out/config/"
           cp pins.env patches/lgpl.patch LICENSES.md "$out/"
           # Corresponding source: every compiled package plus the scripts that
           # control the build (this repo and the patched recipes).

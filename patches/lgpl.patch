@@ -116,7 +116,7 @@ index 7bafdef..3c9c8b9 100644
      CONFIGURE_COMMAND ""
      BUILD_COMMAND ""
 diff --git a/packages/ffmpeg.cmake b/packages/ffmpeg.cmake
-index d54fd1f..2aacc8f 100644
+index d54fd1f..23d492f 100644
 --- a/packages/ffmpeg.cmake
 +++ b/packages/ffmpeg.cmake
 @@ -5,17 +5,15 @@ ExternalProject_Add(ffmpeg
@@ -171,6 +171,22 @@ index d54fd1f..2aacc8f 100644
          --enable-opengl
          --enable-schannel
          ${ffmpeg_lto}
+@@ -62,5 +57,15 @@ ExternalProject_Add(ffmpeg
+     LOG_DOWNLOAD 1 LOG_UPDATE 1 LOG_CONFIGURE 1 LOG_BUILD 1 LOG_INSTALL 1
+ )
+ 
++# Keep the configure results for the GPL guard and the release: the cleanup
++# step deletes the build folder after install.
++ExternalProject_Add_Step(ffmpeg save-config
++    DEPENDEES configure
++    DEPENDERS build
++    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/lgpl-evidence
++    COMMAND ${CMAKE_COMMAND} -E copy <BINARY_DIR>/config.h ${CMAKE_BINARY_DIR}/lgpl-evidence/ffmpeg-config.h
++    COMMAND ${CMAKE_COMMAND} -E copy <BINARY_DIR>/ffbuild/config.mak ${CMAKE_BINARY_DIR}/lgpl-evidence/ffmpeg-config.mak
++)
++
+ force_rebuild_git(ffmpeg)
+ cleanup(ffmpeg install)
 diff --git a/packages/fontconfig.cmake b/packages/fontconfig.cmake
 index c9fe0b7..8bcabba 100644
 --- a/packages/fontconfig.cmake
@@ -384,7 +400,7 @@ index d9d984b..ed7ab1b 100644
      UPDATE_COMMAND ""
      CONFIGURE_COMMAND ""
 diff --git a/packages/mpv.cmake b/packages/mpv.cmake
-index c7f8671..b5f508b 100644
+index c7f8671..2b02eaa 100644
 --- a/packages/mpv.cmake
 +++ b/packages/mpv.cmake
 @@ -4,7 +4,6 @@ ExternalProject_Add(mpv
@@ -426,6 +442,23 @@ index c7f8671..b5f508b 100644
          -Duchardet=enabled
          -Dvulkan=enabled
          -Dc_args='-Wno-error=int-conversion'
+@@ -93,6 +93,16 @@ ExternalProject_Add_Step(mpv copy-package-dir
+     LOG 1
+ )
+ 
++# Keep the configure results for the GPL guard and the release: the cleanup
++# step deletes the build folder after install.
++ExternalProject_Add_Step(mpv save-config
++    DEPENDEES configure
++    DEPENDERS build
++    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/lgpl-evidence
++    COMMAND ${CMAKE_COMMAND} -E copy <BINARY_DIR>/config.h ${CMAKE_BINARY_DIR}/lgpl-evidence/mpv-config.h
++    COMMAND ${CMAKE_COMMAND} -E copy <BINARY_DIR>/meson-info/intro-buildoptions.json ${CMAKE_BINARY_DIR}/lgpl-evidence/mpv-buildoptions.json
++)
++
+ force_rebuild_git(mpv)
+ force_meson_configure(mpv)
+ cleanup(mpv copy-package-dir)
 diff --git a/packages/mujs.cmake b/packages/mujs.cmake
 index 7e6baba..467b937 100644
 --- a/packages/mujs.cmake
