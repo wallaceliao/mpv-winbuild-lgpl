@@ -145,7 +145,10 @@ jobs:
           set -euo pipefail
           out=dist; mkdir -p "$out/config"
           b=mpv-winbuild-cmake/build$BIT
-          cp "$(find mpv-winbuild-cmake/release -name 'mpv-dev-*.7z' | head -1)" "$out/"
+          dev=$(find mpv-winbuild-cmake/release -name 'mpv-dev-*.7z' | head -1)
+          cp "$dev" "$out/"
+          # The bare DLL too, so consumers need no 7-Zip (BCJ2 defeats py7zr).
+          7z e -y -o"$out" "$dev" libmpv-2.dll -r >/dev/null
           cp "$b"/lgpl-evidence/* "$out/config/"
           cp pins.env patches/lgpl.patch LICENSES.md "$out/"
           # Corresponding source: every compiled package plus the scripts that
