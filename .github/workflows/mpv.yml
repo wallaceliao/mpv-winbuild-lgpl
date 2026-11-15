@@ -132,7 +132,9 @@ jobs:
           test -n "$dev"
           mkdir -p /tmp/dev && 7z x -y -o/tmp/dev "$dev" >/dev/null
           s=$(strings -a /tmp/dev/libmpv-2.dll)
-          echo "$s" | grep -qx 'LGPL version 2.1 or later'
+          # Informational: libmpv never calls avutil_license(), so LTO usually
+          # strips FFmpeg's licence string; config.h above is the evidence.
+          if echo "$s" | grep -qx 'LGPL version 2.1 or later'; then echo "DLL: LGPL licence string present"; else echo "DLL: no FFmpeg licence string (stripped)"; fi
           if echo "$s" | grep -Ex 'GPL version [23] or later|LGPL version 3 or later|nonfree and unredistributable'; then
             echo "libmpv-2.dll carries a GPL/nonfree FFmpeg licence string"; exit 1
           fi
