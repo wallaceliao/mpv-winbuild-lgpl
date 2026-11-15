@@ -101,6 +101,12 @@ jobs:
           path: mpv-winbuild-cmake
           fetch-depth: 0
 
+      - name: Apply the LGPL patch
+        run: |
+          set -euo pipefail
+          sed -e "s/@FFMPEG_TAG@/${FFMPEG_TAG}/" -e "s/@MPV_TAG@/${MPV_TAG}/" patches/lgpl.patch > /tmp/lgpl.patch
+          git -C mpv-winbuild-cmake apply --verbose /tmp/lgpl.patch
+
       - name: Restore llvm cache
         if: ${{ inputs.compiler =='clang' }}
         uses: actions/cache/restore@v5.0.5
@@ -183,6 +189,12 @@ jobs:
           ref: ${{ env.CMAKE_SHA }}
           path: mpv-winbuild-cmake
           fetch-depth: 0
+
+      - name: Apply the LGPL patch
+        run: |
+          set -euo pipefail
+          sed -e "s/@FFMPEG_TAG@/${FFMPEG_TAG}/" -e "s/@MPV_TAG@/${MPV_TAG}/" patches/lgpl.patch > /tmp/lgpl.patch
+          git -C mpv-winbuild-cmake apply --verbose /tmp/lgpl.patch
 
       - name: Install Rust Toolchain
         uses: ./action/build_toolchain

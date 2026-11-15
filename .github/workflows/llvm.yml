@@ -78,6 +78,12 @@ jobs:
           path: mpv-winbuild-cmake
           fetch-depth: 0
 
+      - name: Apply the LGPL patch
+        run: |
+          set -euo pipefail
+          sed -e "s/@FFMPEG_TAG@/${FFMPEG_TAG}/" -e "s/@MPV_TAG@/${MPV_TAG}/" patches/lgpl.patch > /tmp/lgpl.patch
+          git -C mpv-winbuild-cmake apply --verbose /tmp/lgpl.patch
+
       - name: Build LLVM
         uses: ./action/build_toolchain
         with:
