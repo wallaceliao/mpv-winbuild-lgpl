@@ -400,7 +400,7 @@ index d9d984b..ed7ab1b 100644
      UPDATE_COMMAND ""
      CONFIGURE_COMMAND ""
 diff --git a/packages/mpv.cmake b/packages/mpv.cmake
-index c7f8671..2b02eaa 100644
+index c7f8671..cd3700a 100644
 --- a/packages/mpv.cmake
 +++ b/packages/mpv.cmake
 @@ -4,7 +4,6 @@ ExternalProject_Add(mpv
@@ -424,11 +424,12 @@ index c7f8671..2b02eaa 100644
      SOURCE_DIR ${SOURCE_LOCATION}
      GIT_CLONE_FLAGS "--filter=tree:0"
      UPDATE_COMMAND ""
-@@ -33,14 +32,15 @@ ExternalProject_Add(mpv
+@@ -33,14 +32,16 @@ ExternalProject_Add(mpv
          -Db_lto=true
          ${mpv_lto_mode}
          -Dlibmpv=true
 +        -Dgpl=false
++        -Dzimg=disabled
          ${mpv_gl}
          -Djavascript=enabled
          -Dlcms2=enabled
@@ -442,7 +443,7 @@ index c7f8671..2b02eaa 100644
          -Duchardet=enabled
          -Dvulkan=enabled
          -Dc_args='-Wno-error=int-conversion'
-@@ -93,6 +93,16 @@ ExternalProject_Add_Step(mpv copy-package-dir
+@@ -93,6 +94,16 @@ ExternalProject_Add_Step(mpv copy-package-dir
      LOG 1
  )
  
