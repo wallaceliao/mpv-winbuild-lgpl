@@ -18,7 +18,6 @@ source archive records the exact trees.
 | fribidi | bidirectional text | LGPL-2.1-or-later |
 | libiconv (GNU) | charset conversion | LGPL-2.1-or-later (library) |
 | uchardet | charset detection | tri-licence MPL-1.1 / GPL-2.0+ / LGPL-2.1+; used under **LGPL-2.1+ or MPL-1.1** |
-| subrandr (+ its Rust crates, Rust std) | SRV3/WebVTT subtitles | MPL-2.0 (crates: see open question below) |
 | libass | ASS subtitles | ISC |
 | freetype2 | font rendering | dual FTL / GPL-2.0; used under **FTL** (credit line required) |
 | harfbuzz | text shaping | MIT ("Old MIT") |
@@ -60,7 +59,6 @@ libbs2b.
   "2.1 or later", so the combined DLL may effectively have to be distributed
   under **LGPL-3.0** terms. That is still LGPL (dynamic linking and
   replacement allowed), but LGPL-3.0 adds the "installation information" rule.
-- **subrandr's Rust dependencies** need their own licence list (e.g. with
-  `cargo about`); disabling subrandr (`-Dsubrandr=disabled`) removes the
-  question if HighlightFab does not need SRV3/WebVTT rendering.
+- **subrandr** is disabled (`-Dsubrandr=disabled`), so its Rust crates are not
+  in the DLL. HighlightFab does not use SRV3/WebVTT rendering.
 - **FreeType (FTL)** requires a credit in the product documentation.

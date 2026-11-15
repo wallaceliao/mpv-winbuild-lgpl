@@ -1,5 +1,5 @@
 diff --git a/packages/CMakeLists.txt b/packages/CMakeLists.txt
-index 528db95..5ac5fae 100644
+index 528db95..4748806 100644
 --- a/packages/CMakeLists.txt
 +++ b/packages/CMakeLists.txt
 @@ -1,8 +1,6 @@
@@ -11,7 +11,11 @@ index 528db95..5ac5fae 100644
      uchardet
      zlib
      bzip2
-@@ -26,8 +24,6 @@ list(APPEND ep
+@@ -22,12 +20,9 @@ list(APPEND ep
+     fontconfig
+     libunibreak
+     libass
+-    subrandr
      nvcodec-headers
      xxhash
      dav1d
@@ -20,7 +24,7 @@ index 528db95..5ac5fae 100644
      #highway
      #libjxl
      angle-headers
-@@ -42,12 +38,8 @@ list(APPEND ep
+@@ -42,12 +37,8 @@ list(APPEND ep
      glad
      fast_float
      libplacebo
@@ -34,7 +38,7 @@ index 528db95..5ac5fae 100644
  foreach(package IN LISTS ep)
      if(NOT ${SINGLE_SOURCE_LOCATION} STREQUAL "")
 diff --git a/packages/ffmpeg.cmake b/packages/ffmpeg.cmake
-index d54fd1f..9ab3f7d 100644
+index d54fd1f..abe8127 100644
 --- a/packages/ffmpeg.cmake
 +++ b/packages/ffmpeg.cmake
 @@ -5,17 +5,15 @@ ExternalProject_Add(ffmpeg
@@ -88,7 +92,7 @@ index d54fd1f..9ab3f7d 100644
          --enable-schannel
          ${ffmpeg_lto}
 diff --git a/packages/mpv.cmake b/packages/mpv.cmake
-index c7f8671..d0649f5 100644
+index c7f8671..b5f508b 100644
 --- a/packages/mpv.cmake
 +++ b/packages/mpv.cmake
 @@ -4,7 +4,6 @@ ExternalProject_Add(mpv
@@ -99,8 +103,11 @@ index c7f8671..d0649f5 100644
          libass
          libiconv
          libjpeg
-@@ -17,7 +16,8 @@ ExternalProject_Add(mpv
-         subrandr
+@@ -14,10 +13,10 @@ ExternalProject_Add(mpv
+         mujs
+         shaderc
+         spirv-cross
+-        subrandr
          uchardet
          vulkan
 -    GIT_REPOSITORY https://github.com/Kosm8/mpv.git
@@ -109,7 +116,7 @@ index c7f8671..d0649f5 100644
      SOURCE_DIR ${SOURCE_LOCATION}
      GIT_CLONE_FLAGS "--filter=tree:0"
      UPDATE_COMMAND ""
-@@ -33,10 +33,11 @@ ExternalProject_Add(mpv
+@@ -33,14 +32,15 @@ ExternalProject_Add(mpv
          -Db_lto=true
          ${mpv_lto_mode}
          -Dlibmpv=true
@@ -122,3 +129,8 @@ index c7f8671..d0649f5 100644
          -Dlua=enabled
          -Dpdf-build=enabled
          -Dspirv-cross=enabled
+-        -Dsubrandr=enabled
++        -Dsubrandr=disabled
+         -Duchardet=enabled
+         -Dvulkan=enabled
+         -Dc_args='-Wno-error=int-conversion'

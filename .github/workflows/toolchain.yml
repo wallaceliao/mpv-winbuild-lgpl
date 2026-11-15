@@ -13,7 +13,7 @@ on:
         - 64bit
       compiler:
         required: false
-        default: "clang"
+        default: "gcc"
         type: choice
         options:
         - gcc
