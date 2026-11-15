@@ -235,6 +235,7 @@ jobs:
                 }
               }
             }
+            if (build_target.size) {
               for (const t of build_target){
                 await github.rest.actions.createWorkflowDispatch({
                   owner: '${{github.repository_owner}}',
