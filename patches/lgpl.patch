@@ -311,14 +311,14 @@ index 8c7d6bb..57eac1f 100644
      GIT_CLONE_FLAGS "--filter=tree:0"
      UPDATE_COMMAND ""
 diff --git a/packages/libplacebo.cmake b/packages/libplacebo.cmake
-index b5797dc..adb169b 100644
+index b5797dc..4284c1b 100644
 --- a/packages/libplacebo.cmake
 +++ b/packages/libplacebo.cmake
 @@ -10,6 +10,7 @@ ExternalProject_Add(libplacebo
          fast_float
          xxhash
      GIT_REPOSITORY https://github.com/haasn/libplacebo.git
-+    GIT_TAG 051cc36fd6e3ca06d64f848b6a38f708f98a2a91  # master as of 2026-05-27
++    GIT_TAG 275f7dea27924cdd34ab2e6c20e448b6bc4fab65  # v7.387.0, the minimum mpv v0.42.0 accepts
      SOURCE_DIR ${SOURCE_LOCATION}
      GIT_CLONE_FLAGS "--filter=tree:0"
      GIT_SUBMODULES ""
